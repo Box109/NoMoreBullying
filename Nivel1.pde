@@ -162,7 +162,7 @@ void nivel1Draw() {
   image(fondo2, fondoX2, 0);
 
   
-  float factorVelocidad = (modoGlitch && tipoGlitch == 2) ? 0.5 : 1.0; // Slow motion si hay glitch tipo 2
+  float factorVelocidad = (modoGlitch && tipoGlitch == 2) ? 0.5 : 1.0; 
   float velocidadReal = velocidad * factorVelocidad;
   
   fondoX1 -= velocidadReal;
