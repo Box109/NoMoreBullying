@@ -1,4 +1,3 @@
-
 ArrayList<Obstaculo2> obstaculos2 = new ArrayList<Obstaculo2>();
 ArrayList<ItemRecolectable2> items2 = new ArrayList<ItemRecolectable2>();
 ArrayList<Particula2> particulas2 = new ArrayList<Particula2>();
