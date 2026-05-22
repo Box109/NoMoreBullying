@@ -25,10 +25,9 @@ int puntuacionTotal = 0, nivelActual = 1;
 int puntuacionSesionNivel1 = 0, puntuacionSesionNivel2 = 0;
 int botonX, botonY, botonW, botonH;
 
-// --- Paleta tematica: calida y esperanzadora ---
-color colorPrimario   = color(100, 200, 255);  // Azul cielo (empata)
-color colorSecundario = color(255, 160,  60);  // Naranja (energia positiva)
-color colorPeligro    = color(220,  50,  80);  // Rojo (alerta)
+color colorPrimario   = color(100, 200, 255);  
+color colorSecundario = color(255, 160,  60);  
+color colorPeligro    = color(220,  50,  80);  
 color colorTexto      = color(240, 240, 255);
 color colorFondo      = color( 10,  12,  28);
 color colorPanel      = color( 15,  25,  50, 230);
