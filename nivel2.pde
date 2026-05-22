@@ -165,8 +165,8 @@ void nivel2Setup() {
   combo = 0;
   comboTimer = 0;
 
-  velocidad = 6;     // Reducido a 6 para igualar Nivel 1 (era 7)
-  velocidadMaxima = 11; // Reducido (era 12)
+  velocidad = 6;    
+  velocidadMaxima = 11; 
 
   escudoActivo = false;
   tiempoEscudo = 0;
@@ -227,9 +227,9 @@ void nivel2Draw() {
 
   distanciaRecorrida += velocidadReal;
 
-  if (frameCount % 80 == 0) velocidad = min(velocidad + 0.5, velocidadMaxima); // Revertido para 30fps
+  if (frameCount % 80 == 0) velocidad = min(velocidad + 0.5, velocidadMaxima); 
 
-  float dirControl = (modoGlitch && tipoGlitch == 1) ? -1.0 : 1.0; // Invertir si hay glitch tipo 1
+  float dirControl = (modoGlitch && tipoGlitch == 1) ? -1.0 : 1.0;
   
   if (teclaDerecha == 1) velX += aceleracion * dirControl;
   if (teclaIzquierda == 1) velX -= aceleracion * dirControl;
