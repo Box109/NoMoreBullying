@@ -444,13 +444,13 @@ void dibujarEscenarioJefe2() {
 
   if (jefeActual.vida <= 0) {
     modoJefe = false;
-    estadoJuego = 8; // Victoria Nivel 2
+    estadoJuego = 8; 
   }
 }
 
 void agregarObstaculo2() {
   float r = random(1);
-  float dist = random(220, 380); // Distancia base
+  float dist = random(220, 380); 
   float proposedX = width + dist;
 
   for (QuizGate g : gates) {
