@@ -133,7 +133,6 @@ void nivel1Draw() {
     return;
   }
   
-  // --- LÓGICA DE JEFE ---
   if (tiempo >= tiempoObjetivo && !modoJefe) {
     modoJefe = true;
     jefeActual = new Boss(1, 300); 
