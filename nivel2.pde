@@ -216,7 +216,7 @@ void nivel2Draw() {
   image(fondo1, fondoX1, 0);
   image(fondo2, fondoX2, 0);
 
-  float factorVelocidad = (modoGlitch && tipoGlitch == 2) ? 0.5 : 1.0; // Slow motion
+  float factorVelocidad = (modoGlitch && tipoGlitch == 2) ? 0.5 : 1.0; 
   float velocidadReal = velocidad * factorVelocidad;
 
   fondoX1 -= velocidadReal;
@@ -371,7 +371,7 @@ void nivel2Draw() {
       items2.remove(i);
 
       combo++;
-      comboTimer = 60; // Revertido para 30fps
+      comboTimer = 60; 
 
       if (it.tipo == 1) {
         recolectados += 2;
@@ -391,7 +391,7 @@ void nivel2Draw() {
       for(ConceptoConvivencia c : baseConocimiento) {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
-          mensajeActual = baseConocimiento.indexOf(c); // Mostrar este mensaje
+          mensajeActual = baseConocimiento.indexOf(c); 
           tiempoMensaje = 150; // 5 segundos para leer
           break;
         }
@@ -518,20 +518,20 @@ void actualizarMisiones2() {
   if (!mision1 && recolectados >= 15) {
     mision1 = true;
     misionesCompletadas++;
-    tiempoMensaje = 120; // Revertido para 30fps
+    tiempoMensaje = 120; 
   }
 
   if (!mision2 && combo >= 7) {
     mision2 = true;
     misionesCompletadas++;
-    tiempoMensaje = 120; // Revertido para 30fps
+    tiempoMensaje = 120; 
   }
 
   tiempoSinDanio++;
   if (!mision3 && tiempoSinDanio >= 600) { 
     mision3 = true;
     misionesCompletadas++;
-    tiempoMensaje = 120; // Revertido para 30fps
+    tiempoMensaje = 120; 
   }
 }
 
