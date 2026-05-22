@@ -178,7 +178,7 @@ void nivel2Setup() {
   misionesCompletadas = 0;
 
   tiempoSinDanio = 0;
-  puntosDanioJefe = 0; // Reset puntos de daño
+  puntosDanioJefe = 0; 
 
   puntuacionSesionNivel2 = 0;
 
@@ -193,7 +193,6 @@ void nivel2Setup() {
 }
 
 void nivel2Draw() {
-  // Limpiar pantalla para evitar glitches visuales
   background(colorFondo);
   
   gestionarGlitch();
