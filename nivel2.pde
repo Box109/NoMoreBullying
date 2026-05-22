@@ -301,7 +301,6 @@ void nivel2Draw() {
     strokeWeight(1);
   }
 
-  // Rotación leve al saltar
   if (salto == 1) {
     pushMatrix();
     translate(movex + 25, movey + 30);
