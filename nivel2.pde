@@ -26,11 +26,10 @@ class Obstaculo2 {
 
   void dibujar() {
     pushMatrix();
-    // Efecto dinámico Nivel 2: Rotación más rápida y palpitación
     translate(x + 35, y + 35); 
     float pulsacion = 1.0 + 0.08 * sin(frameCount * 0.2);
     scale(pulsacion);
-    rotate(radians(frameCount * -2.0)); // Rotación inversa y más rápida
+    rotate(radians(frameCount * -2.0)); 
     
     tint(255, 140 + 115 * abs(sin(frameCount * 0.1)));
     image(img, -35, -35);
