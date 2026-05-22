@@ -1,15 +1,7 @@
-// ========================================
-// NIVEL 2 - CIBERACOSO
-// ========================================
 
-// Listas independientes del nivel 2
 ArrayList<Obstaculo2> obstaculos2 = new ArrayList<Obstaculo2>();
 ArrayList<ItemRecolectable2> items2 = new ArrayList<ItemRecolectable2>();
 ArrayList<Particula2> particulas2 = new ArrayList<Particula2>();
-
-// ----------------------------------------
-// CLASES NIVEL 2
-// ----------------------------------------
 
 class Obstaculo2 {
   float x, y;
@@ -50,8 +42,6 @@ class Obstaculo2 {
     return px + 45 > x && px < x + 55 && py + 65 > y && py < y + 50;
   }
 }
-
-// ----------------------------------------
 
 class ItemRecolectable2 {
   float x, y;
@@ -97,8 +87,6 @@ class ItemRecolectable2 {
   }
 }
 
-// ----------------------------------------
-
 class Particula2 {
   float x, y, vx, vy;
   color col;
@@ -132,14 +120,9 @@ class Particula2 {
   }
 }
 
-// ========================================
-// SETUP DEL NIVEL 2
-// ========================================
-
 void nivel2Setup() {
   frameRate(30); // Revertido a 30fps
 
-  // Cargar fondo y sprites
   fondo1 = loadImage("fondo.jpeg");
   if (fondo1 != null) fondo1.resize(width, height);
   
@@ -149,19 +132,15 @@ void nivel2Setup() {
   fondoX1 = 0;
   fondoX2 = fondo1.width;
 
-  // Jugador
   for (int i = 0; i < correr.length; i++)
     correr[i] = loadImage("player" + i + ".png");
 
-  // Reset listas
   obstaculos2.clear();
   items2.clear();
   particulas2.clear();
   
-  // IMPORTANTE: Limpiar gates del nivel anterior para evitar bloqueos en generación
   gates.clear();
 
-  // Reset variables principales
   vidas = 3;
   recolectados = 0;
   distanciaRecorrida = 0;
@@ -169,21 +148,19 @@ void nivel2Setup() {
   movex = 200;
   movey = 410;
   velY = 0;
-  velX = 0; // Reset velocidad horizontal
+  velX = 0; 
   salto = 0;
   puedeSaltar = 1;
-  saltosActuales = 0; // Reset saltos
+  saltosActuales = 0; 
   imageIndex = 0;
   juegoTerminado = 0;
 
   mensajeActual = 0;
   tiempoMensaje = 0;
-  
-  // Resetear estado de conocimiento para el nivel
+
   for(ConceptoConvivencia c : baseConocimiento) {
     c.desbloqueado = false;
   }
-  // Desbloquear el primero por defecto
   if(baseConocimiento.size() > 0) baseConocimiento.get(0).desbloqueado = true;
 
   combo = 0;
@@ -195,7 +172,6 @@ void nivel2Setup() {
   escudoActivo = false;
   tiempoEscudo = 0;
 
-  // Misiones nivel 2
   mision1 = false; 
   mision2 = false;
   mision3 = false;
@@ -204,44 +180,33 @@ void nivel2Setup() {
   tiempoSinDanio = 0;
   puntosDanioJefe = 0; // Reset puntos de daño
 
-  // Puntuación nivel 2
   puntuacionSesionNivel2 = 0;
 
-  // Reset Jefe
   modoJefe = false;
   proyectilesJugador.clear();
   proyectilesJefe.clear();
   municion = 5;
   fasePhishing = false;
 
-  // Generación inicial
   for (int i = 0; i < 3; i++) agregarObstaculo2();
   for (int i = 0; i < 2; i++) agregarItem2();
 }
-
-// ========================================
-// DRAW DEL NIVEL 2
-// ========================================
 
 void nivel2Draw() {
   // Limpiar pantalla para evitar glitches visuales
   background(colorFondo);
   
-  gestionarGlitch(); // Gestionar efectos del glitch
+  gestionarGlitch();
 
-  // Puntuación en tiempo real
   puntuacionSesionNivel2 = calcularPuntuacion2();
 
   if (juegoTerminado == 1) { estadoJuego = 6; return; }
 
-  // --- LÓGICA DE JEFE NIVEL 2 ---
-  // Aumentado tiempo a 60s (30% más)
   if (tiempo >= 60 * 30 && !modoJefe) { 
     modoJefe = true;
-    jefeActual = new Boss(2, 500); // Vida aumentada 40% (era 350)
+    jefeActual = new Boss(2, 500); 
     obstaculos2.clear();
     items2.clear();
-    // Deshabilitar escudo al entrar al jefe
     escudoActivo = false;
     tiempoEscudo = 0;
   }
@@ -250,8 +215,6 @@ void nivel2Draw() {
     dibujarEscenarioJefe2();
     return;
   }
-
-  // ----- Fondo -----
   image(fondo1, fondoX1, 0);
   image(fondo2, fondoX2, 0);
 
@@ -268,8 +231,6 @@ void nivel2Draw() {
 
   if (frameCount % 80 == 0) velocidad = min(velocidad + 0.5, velocidadMaxima); // Revertido para 30fps
 
-  // ---- Movimiento jugador (MEJORADO) ----
-  // Física horizontal
   float dirControl = (modoGlitch && tipoGlitch == 1) ? -1.0 : 1.0; // Invertir si hay glitch tipo 1
   
   if (teclaDerecha == 1) velX += aceleracion * dirControl;
@@ -279,11 +240,9 @@ void nivel2Draw() {
   movex += velX;
   movex = constrain(movex, 50, width - 100);
 
-  // Animación más lenta (cada 5 frames)
   if (salto == 0 && frameCount % 5 == 0) imageIndex = (imageIndex + 1) % 6;
   tiempo++;
 
-  // Lógica de Doble Salto
   if (teclaArriba == 1 && puedeSaltar == 1) {
     if (saltosActuales < saltosDisponibles) {
       velY = velocidadSalto;
@@ -300,7 +259,6 @@ void nivel2Draw() {
     movey += velY;
     velY += gravedad;
 
-    // Colisión con plataformas de QuizGate (Nivel 2)
     boolean enPlataforma = false;
     for (QuizGate g : gates) {
       if (movex > g.x - 250 && movex < g.x + 250) {
@@ -322,7 +280,6 @@ void nivel2Draw() {
       saltosActuales = 0;
     }
   } else {
-    // Caída de plataforma
     if (movey < 410) {
        boolean enPlataforma = false;
        for (QuizGate g : gates) {
@@ -338,7 +295,6 @@ void nivel2Draw() {
     }
   }
 
-  // ---- Jugador ----
   pushMatrix();
   if (escudoActivo) {
     stroke(0, 200, 255);
@@ -365,13 +321,11 @@ void nivel2Draw() {
 
   popMatrix();
 
-  // ---- Escudo ----
   if (escudoActivo) {
     tiempoEscudo--;
     if (tiempoEscudo <= 0) escudoActivo = false;
   }
 
-  // ---- Obstáculos ----
   for (int i = obstaculos2.size() - 1; i >= 0; i--) {
     Obstaculo2 o = obstaculos2.get(i);
     o.actualizar(velocidadReal);
@@ -386,8 +340,7 @@ void nivel2Draw() {
       vidas--;
       reproducirSonidoDanio();
       crearExplosion2(movex + 25, movey + 30, colorPeligro);
-      
-      // 40% de probabilidad de activar Glitch al chocar
+
       if (random(1) < 0.4) {
         activarModoGlitch();
       }
@@ -401,13 +354,11 @@ void nivel2Draw() {
     }
   }
 
-  // Generación continua
   if (obstaculos2.size() > 0) {
     Obstaculo2 ult = obstaculos2.get(obstaculos2.size() - 1);
     if (width - ult.x > 150) agregarObstaculo2();
   } else agregarObstaculo2();
 
-  // ---- Ítems ----
   for (int i = items2.size() - 1; i >= 0; i--) {
     ItemRecolectable2 it = items2.get(i);
     it.actualizar(velocidadReal);
@@ -439,8 +390,6 @@ void nivel2Draw() {
         crearExplosion2(movex + 25, movey + 30, colorPrimario);
       }
 
-      // DESBLOQUEAR NUEVO CONOCIMIENTO
-      // Buscar el primer concepto no desbloqueado y desbloquearlo
       for(ConceptoConvivencia c : baseConocimiento) {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
@@ -449,7 +398,6 @@ void nivel2Draw() {
           break;
         }
       }
-      // Si ya todos están desbloqueados, mostrar uno aleatorio
       if(tiempoMensaje == 0) {
          mensajeActual = int(random(baseConocimiento.size()));
          tiempoMensaje = 90;
@@ -462,14 +410,11 @@ void nivel2Draw() {
     if (width - ult.x > 250) agregarItem2();
   } else agregarItem2();
 
-  // ---- Actualizar combo ----
   if (comboTimer > 0) comboTimer--;
   else if (combo > 0) combo = 0;
 
-  // ---- Misiones ----
   actualizarMisiones2();
 
-  // ---- Partículas ----
   for (int i = particulas2.size() - 1; i >= 0; i--) {
     Particula2 p = particulas2.get(i);
     p.actualizar();
@@ -477,7 +422,6 @@ void nivel2Draw() {
     if (p.muerta()) particulas2.remove(i);
   }
 
-  // ---- HUD ----
   dibujarHUD2();
 
   if (tiempoMensaje > 0) { dibujarMensajeEducativo(); tiempoMensaje--; }
@@ -485,74 +429,51 @@ void nivel2Draw() {
   dibujarBarraProgreso2();
 }
 
-// ========================================
-// LÓGICA JEFE NIVEL 2
-// ========================================
-
 void dibujarEscenarioJefe2() {
-  // Fondo estático
   image(fondo1, fondoX1, 0);
   image(fondo2, fondoX2, 0);
-  
-  // Reutilizamos lógica de jugador del nivel 1 (es la misma física)
   actualizarJugadorJefe(); 
   
-  // Jefe
   jefeActual.actualizar();
   jefeActual.dibujar();
   
-  // Proyectiles (compartidos)
   gestionarProyectiles();
   
-  // Interfaz Phishing
   if (fasePhishing) {
     dibujarInterfazPhishing();
   }
   
-  // HUD Jefe
   dibujarHUDJefe();
-  
-  // Verificar victoria
+
   if (jefeActual.vida <= 0) {
     modoJefe = false;
     estadoJuego = 8; // Victoria Nivel 2
   }
 }
 
-// ========================================
-// FUNCIONES AUX NIVEL 2
-// ========================================
-
 void agregarObstaculo2() {
   float r = random(1);
   float dist = random(220, 380); // Distancia base
   float proposedX = width + dist;
 
-  // Validar que no esté cerca de un QuizGate
   for (QuizGate g : gates) {
     if (abs(g.x - proposedX) < 500) return; 
   }
 
-  // PATRONES NIVEL 2 (Más agresivos y dinámicos)
   if (r < 0.35) {
-    // 35% Simple (Piso o Aire)
     int tipo = random(1) < 0.5 ? 0 : 1;
     obstaculos2.add(new Obstaculo2(width + dist, tipo));
     
   } else if (r < 0.65) {
-    // 30% "Trampa Doble" (Piso -> Aire muy cerca)
-    // Obliga a saltar el primero y caer rápido o controlar el salto
     obstaculos2.add(new Obstaculo2(width + dist, 0));
     obstaculos2.add(new Obstaculo2(width + dist + 120, 1)); 
     
   } else if (r < 0.85) {
-    // 20% "Triple Amenaza" (Piso -> Piso -> Aire)
     obstaculos2.add(new Obstaculo2(width + dist, 0));
     obstaculos2.add(new Obstaculo2(width + dist + 160, 0));
     obstaculos2.add(new Obstaculo2(width + dist + 320, 1));
     
   } else {
-    // 15% "Lluvia de Malware" (Aire -> Aire -> Piso)
     obstaculos2.add(new Obstaculo2(width + dist, 1));
     obstaculos2.add(new Obstaculo2(width + dist + 200, 1));
     obstaculos2.add(new Obstaculo2(width + dist + 400, 0));
@@ -570,12 +491,10 @@ void agregarItem2() {
   float dist = random(150, 260);
   float proposedX = width + dist;
 
-  // Validar que no esté cerca de un QuizGate
   for (QuizGate g : gates) {
     if (abs(g.x - proposedX) < 500) return; 
   }
 
-  // Validar superposición con obstáculos del nivel 2
   boolean superpuesto = false;
   for (Obstaculo2 obs : obstaculos2) {
     if (abs(obs.x - proposedX) < 80) {
@@ -595,41 +514,30 @@ void crearExplosion2(float x, float y, color c) {
   }
 }
 
-// ========================================
-// MISIÓNES NIVEL 2
-// ========================================
 
 void actualizarMisiones2() {
 
-  // Misión 1: Recolecta 15 chips
   if (!mision1 && recolectados >= 15) {
     mision1 = true;
     misionesCompletadas++;
     tiempoMensaje = 120; // Revertido para 30fps
   }
 
-  // Misión 2: Combo de x7
   if (!mision2 && combo >= 7) {
     mision2 = true;
     misionesCompletadas++;
     tiempoMensaje = 120; // Revertido para 30fps
   }
 
-  // Misión 3: Mantenerse sin daño 20 segundos
   tiempoSinDanio++;
-  if (!mision3 && tiempoSinDanio >= 600) { // Revertido para 30fps (20s)
+  if (!mision3 && tiempoSinDanio >= 600) { 
     mision3 = true;
     misionesCompletadas++;
     tiempoMensaje = 120; // Revertido para 30fps
   }
 }
 
-// ========================================
-// HUD NIVEL 2
-// ========================================
-
 void dibujarHUD2() {
-  // BARRA SUPERIOR UNIFICADA
   fill(10, 15, 30, 240);
   noStroke();
   rect(0, 0, width, 50);
@@ -638,7 +546,6 @@ void dibujarHUD2() {
   strokeWeight(2);
   line(0, 50, width, 50);
   
-  // 1. VIDAS (Izquierda)
   float x = 20;
   fill(colorPeligro);
   textSize(20);
@@ -648,32 +555,26 @@ void dibujarHUD2() {
   for (int i = 0; i < vidas; i++) {
     rect(x + i * 20, 18, 15, 15, 2);
   }
-  
-  // 2. DATOS (Izquierda +)
   x += 100;
   fill(colorPrimario);
   text("💾 " + recolectados, x, 25);
-  
-  // 3. TIEMPO (Centro)
+ 
   fill(colorSecundario);
   textAlign(CENTER, CENTER);
   int segundos = tiempo / 30;
   int objetivo = 60; // 60 segundos
   text("⏱ " + segundos + "s / " + objetivo + "s", width/2, 25);
-  
-  // 4. SCORE (Derecha)
+
   fill(colorPrimario);
   textAlign(RIGHT, CENTER);
   text("SCORE: " + puntuacionSesionNivel2, width - 20, 25);
-  
-  // 5. COMBO (Debajo del score si existe)
+ 
   if (combo > 1) {
     fill(255, 215, 0);
     textSize(16);
     text("COMBO x" + combo, width - 20, 65);
   }
-  
-  // 6. ESCUDO ACTIVO (Debajo de vidas)
+
   if (escudoActivo) {
     fill(0, 200, 255);
     textAlign(LEFT);
@@ -686,12 +587,7 @@ void dibujarHUD2() {
   dibujarPanelMisiones2();
 }
 
-// ========================================
-// PANEL MISIONES NIVEL 2
-// ========================================
-
 void dibujarPanelMisiones2() {
-  // Panel de misiones (SIMPLIFICADO Y MÁS PEQUEÑO)
   float w = 250;
   float h = 100;
   float x = width - w - 10;
@@ -717,10 +613,6 @@ void dibujarPanelMisiones2() {
   int s = tiempoSinDanio/30; 
   text((mision3 ? "✓ " : "○ ") + "20s Intacto (" + s + "/20)", x + 10, y + 80);
 }
-
-// ========================================
-// PROGRESO NIVEL 2
-// ========================================
 
 void dibujarBarraProgreso2() {
   
