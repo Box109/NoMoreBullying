@@ -44,13 +44,13 @@ class Obstaculo2 {
 
 class ItemRecolectable2 {
   float x, y;
-  int tipo; // 0 normal, 1 energía, 2 firewall
+  int tipo; 
   PImage img;
 
   ItemRecolectable2(float x, int tipo) {
     this.x = x;
     this.tipo = tipo;
-    this.img = item; // Usar imagen global
+    this.img = item; 
 
     if (random(1) > 0.5) this.y = 350;
     else this.y = 440;
