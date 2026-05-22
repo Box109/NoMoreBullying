@@ -641,7 +641,6 @@ void dibujarEfectoFondo() {
     fill(colorPrimario,random(15,65));
     textSize(int(random(10,20)));
     textAlign(CENTER,CENTER);
-    // Simbolos de corazon y apoyo mezclados con codigo
     int r=int(random(6));
     String[] simbolos = {"<3","o/","!","?","0","1"};
     text(simbolos[r],random(width),random(height));
