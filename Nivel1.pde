@@ -128,7 +128,6 @@ void nivel1Setup() {
   }
 }
 
-// ----------------------------------------------------
 
 void nivel1Draw() {
 
@@ -211,9 +210,8 @@ void nivel1Draw() {
     // Colisión con plataformas de QuizGate
     boolean enPlataforma = false;
     for (QuizGate g : gates) {
-      // Chequear si estamos sobre la plataforma (x +/- 250, y = 250)
       if (movex > g.x - 250 && movex < g.x + 250) {
-        // Si estamos cayendo y llegamos a la altura de la plataforma
+        
         if (velY > 0 && movey >= 250 && movey <= 270) {
            movey = 250;
            salto = 0;
@@ -232,7 +230,6 @@ void nivel1Draw() {
       saltosActuales = 0; // Reset saltos al tocar suelo
     }
   } else {
-    // Si no estamos saltando, verificar si caemos de una plataforma
     if (movey < 410) {
        boolean enPlataforma = false;
        for (QuizGate g : gates) {
@@ -248,7 +245,6 @@ void nivel1Draw() {
     }
   }
 
-  // Dibujar jugador con efecto de escudo
   pushMatrix();
   if (escudoActivo) {
     noFill();
@@ -258,7 +254,6 @@ void nivel1Draw() {
     strokeWeight(1);
   }
   
-  // Rotación leve al saltar para dinamismo
   if (salto == 1) {
     pushMatrix();
     translate(movex + 25, movey + 30);
@@ -266,7 +261,6 @@ void nivel1Draw() {
     image(correr[velY < 0 ? 6 : 7], -25, -30);
     popMatrix();
   } else {
-    // Inclinación al correr
     pushMatrix();
     translate(movex + 25, movey + 30);
     rotate(radians(velX * 1.5));
@@ -275,13 +269,11 @@ void nivel1Draw() {
   }
   popMatrix();
   
-  // Actualizar escudo
   if (escudoActivo) {
     tiempoEscudo--;
     if (tiempoEscudo <= 0) escudoActivo = false;
   }
 
-  // --- Gates (Puertas Lógicas) ---
   for (int i = gates.size() - 1; i >= 0; i--) {
     QuizGate g = gates.get(i);
     g.actualizar(velocidadReal);
@@ -294,19 +286,15 @@ void nivel1Draw() {
     
     int resultado = g.verificarColision(movex, movey);
     if (resultado == 1) {
-      // Correcto
       recolectados += 5;
       crearExplosion(movex, movey, color(0, 255, 0));
-      // Feedback visual positivo
       fill(0, 255, 0);
       textSize(20);
       text("¡CORRECTO!", movex, movey - 50);
     } else if (resultado == -1) {
-      // Incorrecto
       vidas--;
       reproducirSonidoDanio();
       crearExplosion(movex, movey, colorPeligro);
-      // Feedback visual negativo
       fill(255, 0, 0);
       textSize(20);
       text("¡ERROR!", movex, movey - 50);
@@ -315,11 +303,9 @@ void nivel1Draw() {
     }
   }
 
-  // --- Obstáculos (virus/malware) ---
   for (int i = obstaculos.size() - 1; i >= 0; i--) {
     Obstaculo obs = obstaculos.get(i);
-    
-    // Aplicar slow motion a obstáculos también
+
     obs.actualizar(velocidadReal);
     
     obs.dibujar();
@@ -329,7 +315,6 @@ void nivel1Draw() {
       continue;
     }
     
-    // Colisión
     if (!escudoActivo && obs.colisiona(movex, movey)) {
       vidas--;
       reproducirSonidoDanio();
@@ -339,7 +324,6 @@ void nivel1Draw() {
       comboTimer = 0;
       tiempoSinDanio = 0;
       
-      // Probabilidad de Glitch (40%)
       if (random(1) < 0.4) {
         activarModoGlitch();
       }
@@ -347,8 +331,7 @@ void nivel1Draw() {
       if (vidas <= 0) juegoTerminado = 1;
     }
   }
-  
-  // Generar nuevos obstáculos o Gates
+
   float xUltimoObjeto = 0;
   if (obstaculos.size() > 0) xUltimoObjeto = obstaculos.get(obstaculos.size() - 1).x;
   if (gates.size() > 0) xUltimoObjeto = max(xUltimoObjeto, gates.get(gates.size() - 1).x);
@@ -357,7 +340,6 @@ void nivel1Draw() {
     agregarObstaculo();
   }
 
-  // --- Ítems (escudos de seguridad) ---
   for (int i = items.size() - 1; i >= 0; i--) {
     ItemRecolectable it = items.get(i);
     it.actualizar(velocidadReal);
@@ -368,7 +350,6 @@ void nivel1Draw() {
       continue;
     }
     
-    // Colisión con item
     if (it.recolectar(movex, movey)) {
       items.remove(i);
       
@@ -387,9 +368,7 @@ void nivel1Draw() {
         recolectados++;
         crearExplosion(movex + 25, movey + 30, colorPrimario);
       }
-      
-      // DESBLOQUEAR NUEVO CONOCIMIENTO
-      // Buscar el primer concepto no desbloqueado y desbloquearlo
+
       for(ConceptoConvivencia c : baseConocimiento) {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
@@ -398,7 +377,7 @@ void nivel1Draw() {
           break;
         }
       }
-      // Si ya todos están desbloqueados, mostrar uno aleatorio
+
       if(tiempoMensaje == 0) {
          mensajeActual = int(random(baseConocimiento.size()));
          tiempoMensaje = 90;
@@ -406,7 +385,6 @@ void nivel1Draw() {
     }
   }
   
-  // Generar nuevos items
   if (items.size() > 0) {
     ItemRecolectable ultimoIt = items.get(items.size() - 1);
     if (width - ultimoIt.x > 200) {
@@ -416,14 +394,11 @@ void nivel1Draw() {
     agregarItem();
   }
   
-  // Actualizar combo
   if (comboTimer > 0) comboTimer--;
   else if (combo > 0) combo = 0;
   
-  // Actualizar misiones
   actualizarMisiones();
 
-  // --- Partículas ---
   for (int i = particulas.size() - 1; i >= 0; i--) {
     Particula p = particulas.get(i);
     p.actualizar();
@@ -431,7 +406,6 @@ void nivel1Draw() {
     if (p.estamuerta()) particulas.remove(i);
   }
 
-  // --- HUD ---
   dibujarHUD();
   gestionarGlitch(); // Actualizar efectos de glitch
   if (tiempoMensaje > 0) {
@@ -441,34 +415,24 @@ void nivel1Draw() {
   dibujarBarraProgreso();
 }
 
-// ----------------------------------------------------
-// LÓGICA DEL JEFE NIVEL 1
-// ----------------------------------------------------
 
 void dibujarEscenarioJefe() {
-  // Fondo estático (o movimiento muy lento)
   image(fondo1, fondoX1, 0);
   image(fondo2, fondoX2, 0);
   
-  // Jugador
   actualizarJugadorJefe();
   
-  // Jefe
   jefeActual.actualizar();
   jefeActual.dibujar();
   
-  // Proyectiles
   gestionarProyectiles();
-  
-  // Interfaz Phishing
+
   if (fasePhishing) {
     dibujarInterfazPhishing();
   }
-  
-  // HUD Jefe
+
   dibujarHUDJefe();
   
-  // Verificar victoria
   if (jefeActual.vida <= 0) {
     modoJefe = false;
     estadoJuego = 3; // Victoria Nivel 1
@@ -476,8 +440,6 @@ void dibujarEscenarioJefe() {
 }
 
 void actualizarJugadorJefe() {
-  // Física similar pero sin scroll de fondo
-  // Movimiento más rápido en fase de jefe
   float accJefe = aceleracion * 1.5;
   
   if (teclaDerecha == 1) velX += accJefe;
@@ -485,8 +447,7 @@ void actualizarJugadorJefe() {
   velX *= friccion;
   movex += velX;
   movex = constrain(movex, 50, width - 400); // Limitar para no tocar al jefe
-  
-  // Animación más lenta en jefe también
+
   if (salto == 0 && frameCount % 5 == 0) imageIndex = (imageIndex + 1) % 6;
   
   if (teclaArriba == 1 && puedeSaltar == 1) {
@@ -509,8 +470,7 @@ void actualizarJugadorJefe() {
       saltosActuales = 0;
     }
   }
-  
-  // Dibujar
+
   pushMatrix();
   if (escudoActivo) {
     stroke(colorPrimario); noFill(); circle(movex + 25, movey + 30, 80);
@@ -520,7 +480,6 @@ void actualizarJugadorJefe() {
 }
 
 void gestionarProyectiles() {
-  // Recarga munición
   if (municion < 5) {
     tiempoRecarga--;
     if (tiempoRecarga <= 0) {
@@ -529,13 +488,11 @@ void gestionarProyectiles() {
     }
   }
 
-  // Proyectiles Jugador
   for (int i = proyectilesJugador.size() - 1; i >= 0; i--) {
     Proyectil p = proyectilesJugador.get(i);
     p.actualizar();
     p.dibujar();
-    
-    // Colisión con Jefe (Hitbox dinámica según tipo)
+  
     float hitboxSize = (jefeActual.tipo == 2) ? 240 : 200;
     float offset = hitboxSize / 2;
     
@@ -548,14 +505,12 @@ void gestionarProyectiles() {
       proyectilesJugador.remove(i);
     }
   }
-  
-  // Proyectiles Jefe
+
   for (int i = proyectilesJefe.size() - 1; i >= 0; i--) {
     Proyectil p = proyectilesJefe.get(i);
     p.actualizar();
     p.dibujar();
-    
-    // Colisión con Jugador
+   
     if (!escudoActivo && p.colisiona(movex, movey, 50, 70)) {
       vidas--;
       reproducirSonidoDanio();
@@ -570,8 +525,7 @@ void gestionarProyectiles() {
 
 void dibujarHUDJefe() {
   dibujarHUD(); // Base
-  
-  // Munición
+
   fill(colorPanel);
   stroke(colorSecundario);
   rect(width/2 - 100, height - 60, 200, 40, 10);
@@ -593,9 +547,6 @@ void dibujarHUDJefe() {
   }
 }
 
-// ----------------------------------------------------
-// FUNCIONES AUXILIARES NIVEL 1 (HUD REDISEÑADO)
-// ----------------------------------------------------
 
 void dibujarHUD() {
   // BARRA SUPERIOR UNIFICADA
@@ -607,7 +558,6 @@ void dibujarHUD() {
   strokeWeight(2);
   line(0, 50, width, 50);
   
-  // 1. VIDAS (Izquierda)
   float x = 20;
   fill(colorPeligro);
   textSize(20);
@@ -618,31 +568,26 @@ void dibujarHUD() {
     rect(x + i * 20, 18, 15, 15, 2);
   }
   
-  // 2. ESCUDOS (Izquierda +)
   x += 100;
   fill(colorPrimario);
   text("Apoyo: " + recolectados, x, 25);
   
-  // 3. TIEMPO (Centro)
   fill(colorSecundario);
   textAlign(CENTER, CENTER);
   int segundos = tiempo / 30;
   int objetivo = tiempoObjetivo / 30;
   text("⏱ " + segundos + "s / " + objetivo + "s", width/2, 25);
-  
-  // 4. SCORE (Derecha)
+
   fill(colorPrimario);
   textAlign(RIGHT, CENTER);
   text("SCORE: " + puntuacionSesionNivel1, width - 20, 25);
-  
-  // 5. COMBO (Debajo del score si existe)
+
   if (combo > 1) {
     fill(255, 215, 0);
     textSize(16);
     text("COMBO x" + combo, width - 20, 65);
   }
-  
-  // 6. ESCUDO ACTIVO (Debajo de vidas)
+
   if (escudoActivo) {
     fill(0, 255, 255);
     textAlign(LEFT);
@@ -650,14 +595,12 @@ void dibujarHUD() {
     int segsEscudo = tiempoEscudo / 30;
     text("ESCUDO: " + segsEscudo + "s (Proteccion)", 20, 65);
   }
-  
-  // Misiones (Simplificadas en esquina inferior derecha)
+ 
   dibujarPanelMisiones();
 }
 
 void dibujarMensajeEducativo() {
-  // Panel inferior central (TOAST)
-  // No intrusivo, fondo oscuro semitransparente
+
   float w = 700;
   float h = 50;
   float x = width/2 - w/2;
@@ -678,7 +621,6 @@ void dibujarMensajeEducativo() {
 }
 
 void dibujarBarraProgreso() {
-  // Barra de progreso integrada en la parte inferior de la barra superior
   float progreso = float(tiempo) / float(tiempoObjetivo);
   
   noStroke();
@@ -713,19 +655,16 @@ void agregarObstaculo() {
   float r = random(1);
   float distanciaBase = random(250, 400); // Más espacio base
   float proposedX = width + distanciaBase;
-  
-  // Validar que no esté cerca de un QuizGate
+ 
   for (QuizGate g : gates) {
     if (abs(g.x - proposedX) < 500) return; // Zona segura de 500px alrededor del Gate
   }
-  
-  // 50% Chance de Gate (AUMENTADO PARA PRUEBAS)
+
   boolean puedePonerGate = true;
   if (gates.size() > 0) {
      if (width - gates.get(gates.size()-1).x < 600) puedePonerGate = false; // Espaciar gates
   }
-  
-  // Si es el primer objeto del juego, forzar que sea un Gate para que el usuario lo vea
+
   if (obstaculos.size() == 0 && gates.size() == 0) {
      gates.add(new QuizGate(width + 400));
      return;
