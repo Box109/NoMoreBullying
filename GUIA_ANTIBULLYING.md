@@ -1,6 +1,6 @@
 # GUIA EDUCATIVA - BULLYING Y CIBERACOSO
 
-Esta guia explica los conceptos educativos presentes en Bullying Runner.
+Esta guia explica los conceptos educativos presentes en No More Bullying.
 
 ## Que es el Bullying?
 
