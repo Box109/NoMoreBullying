@@ -120,7 +120,7 @@ class Particula2 {
 }
 
 void nivel2Setup() {
-  frameRate(30); // Revertido a 30fps
+  frameRate(30); 
 
   fondo1 = loadImage("fondo.jpeg");
   if (fondo1 != null) fondo1.resize(width, height);
