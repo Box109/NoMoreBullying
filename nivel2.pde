@@ -11,12 +11,12 @@ class Obstaculo2 {
   Obstaculo2(float x, int tipo) {
     this.x = x;
     this.tipo = tipo;
-    this.img = obstaculo; // Usar imagen global
+    this.img = obstaculo; 
 
     if (tipo == 1) {
-      this.y = 330;   // aéreo más alto
+      this.y = 330;  
     } else {
-      this.y = 435;   // piso
+      this.y = 435;
     }
   }
 
