@@ -70,7 +70,6 @@ void nivel1Setup() {
   item = loadImage("item.png");
   if (item != null) item.resize(58, 58); 
 
-  // Reset de listas
   obstaculos.clear();
   items.clear();
   particulas.clear();
