@@ -299,9 +299,6 @@ void detenerTodasLasMusicas() {
 void reproducirSonidoBoton() { if(sfxBoton!=null) sfxBoton.play(); }
 void reproducirSonidoDanio()  { if(sfxDanio!=null) sfxDanio.play(); }
 
-// ============================================================
-// INPUT TECLADO
-// ============================================================
 void keyPressed() {
   if (estadoJuego==-1&&creandoPerfil) {
     if (key==ENTER||key==RETURN) {
@@ -653,9 +650,6 @@ void dibujarEfectoFondo() {
   popStyle();
 }
 
-// ============================================================
-// TAD: PerfilJugador
-// ============================================================
 class PerfilJugador {
   String nombre;
   int scoreNivel1, scoreNivel2;
@@ -671,9 +665,6 @@ void ordenarPerfiles() {
   });
 }
 
-// ============================================================
-// BOSS (Acosador Digital)
-// ============================================================
 class Boss {
   float x,y; int vida,vidaMax,tipo;
   int cooldownAtaque=0,cooldownPhishing=600,contadorAtaques=0;
