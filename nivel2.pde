@@ -378,7 +378,7 @@ void nivel2Draw() {
       }
       else if (it.tipo == 2) {
         escudoActivo = true;
-        tiempoEscudo = 180; // Revertido para 30fps
+        tiempoEscudo = 180; 
         crearExplosion2(movex + 25, movey + 30, color(0, 200, 255));
         recolectados++;
       }
@@ -391,7 +391,7 @@ void nivel2Draw() {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
           mensajeActual = baseConocimiento.indexOf(c); 
-          tiempoMensaje = 150; // 5 segundos para leer
+          tiempoMensaje = 150; 
           break;
         }
       }
