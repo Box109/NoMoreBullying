@@ -1,4 +1,4 @@
-# NO MORE BULLYING - Juego Educativo Anti-Bullying y Ciberacoso
+# NO MORE BULLYING - Juego Anti-Bullying y Ciberacoso
 
 Proyecto Final  ED-POO - 2026
 Universidad del Norte
