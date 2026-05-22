@@ -119,7 +119,6 @@ void nivel1Setup() {
   municion = 5;
   fasePhishing = false;
   
-  // Generación inicial de obstáculos y items
   for (int i = 0; i < 3; i++) {
     agregarObstaculo();
   }
@@ -190,14 +189,12 @@ void nivel1Draw() {
   if (salto == 0 && frameCount % 5 == 0) imageIndex = (imageIndex + 1) % 6;
   tiempo++;
 
-  // Lógica de Doble Salto
   if (teclaArriba == 1 && puedeSaltar == 1) {
     if (saltosActuales < saltosDisponibles) {
       velY = velocidadSalto;
       salto = 1;
       saltosActuales++;
       puedeSaltar = 0;
-      // Efecto visual de salto
       crearExplosion(movex + 25, movey + 60, color(255, 255, 255, 100));
     }
   }
@@ -207,7 +204,6 @@ void nivel1Draw() {
     movey += velY;
     velY += gravedad;
 
-    // Colisión con plataformas de QuizGate
     boolean enPlataforma = false;
     for (QuizGate g : gates) {
       if (movex > g.x - 250 && movex < g.x + 250) {
@@ -407,7 +403,7 @@ void nivel1Draw() {
   }
 
   dibujarHUD();
-  gestionarGlitch(); // Actualizar efectos de glitch
+  gestionarGlitch(); 
   if (tiempoMensaje > 0) {
     dibujarMensajeEducativo();
     tiempoMensaje--;
@@ -435,7 +431,7 @@ void dibujarEscenarioJefe() {
   
   if (jefeActual.vida <= 0) {
     modoJefe = false;
-    estadoJuego = 3; // Victoria Nivel 1
+    estadoJuego = 3; 
   }
 }
 
@@ -446,7 +442,7 @@ void actualizarJugadorJefe() {
   if (teclaIzquierda == 1) velX -= accJefe;
   velX *= friccion;
   movex += velX;
-  movex = constrain(movex, 50, width - 400); // Limitar para no tocar al jefe
+  movex = constrain(movex, 50, width - 400); 
 
   if (salto == 0 && frameCount % 5 == 0) imageIndex = (imageIndex + 1) % 6;
   
@@ -484,7 +480,7 @@ void gestionarProyectiles() {
     tiempoRecarga--;
     if (tiempoRecarga <= 0) {
       municion++;
-      tiempoRecarga = 10; // Recarga MUCHO más rápida (era 40)
+      tiempoRecarga = 10;
     }
   }
 
@@ -498,7 +494,7 @@ void gestionarProyectiles() {
     
     if (p.colisiona(jefeActual.x - offset, jefeActual.y - offset, hitboxSize, hitboxSize)) {
       jefeActual.vida -= 10;
-      puntosDanioJefe += 50; // Puntos por golpe
+      puntosDanioJefe += 50; 
       crearExplosion(p.x, p.y, colorPrimario);
       proyectilesJugador.remove(i);
     } else if (p.x > width) {
