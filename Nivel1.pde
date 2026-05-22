@@ -360,7 +360,7 @@ void nivel1Draw() {
       for(ConceptoConvivencia c : baseConocimiento) {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
-          mensajeActual = baseConocimiento.indexOf(c); // Mostrar este mensaje
+          mensajeActual = baseConocimiento.indexOf(c); 
           tiempoMensaje = 150; 
           break;
         }
