@@ -1,11 +1,11 @@
-# BULLYING RUNNER - Juego Educativo Anti-Bullying y Ciberacoso
+# NO MORE BULLYING - Juego Educativo Anti-Bullying y Ciberacoso
 
-Proyecto Final - Estructura de Datos I - 2026-10
+Proyecto Final  ED-POO - 2026
 Universidad del Norte
 
 ## Descripcion
 
-Bullying Runner es un videojuego educativo desarrollado en Processing que crea conciencia sobre
+No More Bullying es un videojuego educativo desarrollado en Processing que crea conciencia sobre
 el bullying y el ciberacoso. El jugador aprende a reconocer situaciones de acoso, actuar con
 empatia y rechazar mensajes daninos mientras navega por dos niveles progresivos.
 
