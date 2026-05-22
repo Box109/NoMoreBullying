@@ -12,7 +12,6 @@ empatia y rechazar mensajes daninos mientras navega por dos niveles progresivos.
 ## Objetivos Educativos
 
 1. Reconocer el Bullying: identificar situaciones de acoso escolar.
-2. Empatia y Accion: actuar, no solo observar.
 3. Ciberacoso: entender los riesgos del acoso en linea.
 4. Reporte y Apoyo: pedir ayuda es un acto de valentia.
 
