@@ -1,7 +1,6 @@
 
 import java.util.ArrayList; 
 
-
 ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
 ArrayList<ItemRecolectable> items = new ArrayList<ItemRecolectable>();
 ArrayList<Particula> particulas = new ArrayList<Particula>();
@@ -45,8 +44,6 @@ class Obstaculo {
   }
 }
 
-
-
 void nivel1Setup() {
   frameRate(30);
 
@@ -82,7 +79,6 @@ void nivel1Setup() {
   
   if(baseConocimiento.size() > 0) baseConocimiento.get(0).desbloqueado = true;
 
- 
   vidas = 3;
   recolectados = 0;
   tiempo = 0;
@@ -126,12 +122,10 @@ void nivel1Setup() {
   }
 }
 
-
 void nivel1Draw() {
 
   background(colorFondo);
 
- 
   puntuacionSesionNivel1 = calcularPuntuacion();
   
   if (juegoTerminado == 1) {
