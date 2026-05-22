@@ -215,7 +215,7 @@ void nivel1Draw() {
       movey = 410;
       salto = 0;
       velY = 0;
-      saltosActuales = 0; // Reset saltos al tocar suelo
+      saltosActuales = 0; 
     }
   } else {
     if (movey < 410) {
@@ -227,7 +227,7 @@ void nivel1Draw() {
          }
        }
        if (!enPlataforma) {
-         salto = 1; // Empezar a caer
+         salto = 1; 
          velY = 0;
        }
     }
@@ -342,14 +342,14 @@ void nivel1Draw() {
       items.remove(i);
       
       combo++;
-      comboTimer = 60; // Revertido para 30fps
+      comboTimer = 60; 
       
       if (it.tipo == 1) {
         recolectados += 3;
         crearExplosion(movex + 25, movey + 30, color(255, 215, 0));
       } else if (it.tipo == 2) {
         escudoActivo = true;
-        tiempoEscudo = 180; // Revertido para 30fps (6s)
+        tiempoEscudo = 180; 
         crearExplosion(movex + 25, movey + 30, color(0, 255, 200));
         recolectados++;
       } else {
@@ -361,7 +361,7 @@ void nivel1Draw() {
         if(!c.desbloqueado) {
           c.desbloqueado = true;
           mensajeActual = baseConocimiento.indexOf(c); // Mostrar este mensaje
-          tiempoMensaje = 150; // 5 segundos para leer
+          tiempoMensaje = 150; 
           break;
         }
       }
@@ -537,7 +537,6 @@ void dibujarHUDJefe() {
 
 
 void dibujarHUD() {
-  // BARRA SUPERIOR UNIFICADA
   fill(10, 15, 30, 240);
   noStroke();
   rect(0, 0, width, 50);
@@ -613,7 +612,7 @@ void dibujarBarraProgreso() {
   
   noStroke();
   fill(50);
-  rect(0, 46, width, 4); // Fondo delgado
+  rect(0, 46, width, 4); 
   
   fill(lerpColor(colorPeligro, colorPrimario, progreso));
   rect(0, 46, width * progreso, 4); // Barra delgada
@@ -641,16 +640,16 @@ void crearExplosion(float x, float y, color col) {
 
 void agregarObstaculo() {
   float r = random(1);
-  float distanciaBase = random(250, 400); // Más espacio base
+  float distanciaBase = random(250, 400); 
   float proposedX = width + distanciaBase;
  
   for (QuizGate g : gates) {
-    if (abs(g.x - proposedX) < 500) return; // Zona segura de 500px alrededor del Gate
+    if (abs(g.x - proposedX) < 500) return; 
   }
 
   boolean puedePonerGate = true;
   if (gates.size() > 0) {
-     if (width - gates.get(gates.size()-1).x < 600) puedePonerGate = false; // Espaciar gates
+     if (width - gates.get(gates.size()-1).x < 600) puedePonerGate = false;
   }
 
   if (obstaculos.size() == 0 && gates.size() == 0) {
@@ -726,7 +725,6 @@ void agregarItem() {
 }
 
 void actualizarMisiones() {
-  // Misión 1: Recolecta 10 corazones
   if (!mision1 && recolectados >= 10) {
     mision1 = true;
     misionesCompletadas++;
@@ -734,7 +732,6 @@ void actualizarMisiones() {
     mensajeActual = 0; 
   }
   
-  // Misión 2: Mantén combo x5
   if (!mision2 && combo >= 5) {
     mision2 = true;
     misionesCompletadas++;
@@ -766,7 +763,6 @@ void dibujarPanelMisiones() {
   textAlign(LEFT);
   text("MISIONES", x + 10, y + 20);
   
-  // Misión 1
   fill(mision1 ? colorPrimario : 150);
   text((mision1 ? "✓ " : "○ ") + "10 Corazones (" + recolectados + "/10)", x + 10, y + 40);
  
